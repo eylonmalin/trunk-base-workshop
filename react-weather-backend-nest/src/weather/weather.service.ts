@@ -2,6 +2,7 @@ import { HttpService, Injectable } from '@nestjs/common';
 import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
+import { FavoritesService } from '../favorites/favorites.service';
 import * as tunnel from 'tunnel';
 
 @Injectable()
@@ -15,7 +16,10 @@ export class WeatherService {
     },
   });
 
-  constructor(private httpService: HttpService) {
+  constructor(
+      private httpService: HttpService,
+      private favoritesService: FavoritesService,
+    ) {
     this.requestConfig = appConfig.proxyHost
       ? {
           httpsAgent: this.tunnel,
@@ -24,6 +28,7 @@ export class WeatherService {
   }
 
   async getWeather(city? : string): Promise<any> {
+    city = this.storeOrGetCity(city);
     const url = `${appConfig.weatherUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
     const result = await this.httpService
       .get(url, this.requestConfig)
@@ -31,7 +36,17 @@ export class WeatherService {
     return result.data;
   }
 
+  private storeOrGetCity(city: string) {
+    if (city) {
+      this.favoritesService.setLastCity(city);
+      return city;
+    } else {
+      return this.favoritesService.getLastCity();
+    }
+  }
+
   async getForcast(city? : string): Promise<any> {
+    city = this.storeOrGetCity(city);
     const url = `${appConfig.forecastUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
     const result = await this.httpService
       .get(url, this.requestConfig)
