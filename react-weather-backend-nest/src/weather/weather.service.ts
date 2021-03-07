@@ -23,7 +23,7 @@ export class WeatherService {
       : {};
   }
 
-  async getWeather(city: string): Promise<any> {
+  async getWeather(city? : string): Promise<any> {
     const url = `${appConfig.weatherUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
     const result = await this.httpService
       .get(url, this.requestConfig)
@@ -31,7 +31,7 @@ export class WeatherService {
     return result.data;
   }
 
-  async getForcast(city: string): Promise<any> {
+  async getForcast(city? : string): Promise<any> {
     const url = `${appConfig.forecastUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
     const result = await this.httpService
       .get(url, this.requestConfig)
