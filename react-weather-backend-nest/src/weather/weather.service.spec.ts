@@ -1,12 +1,19 @@
 import { WeatherService } from './weather.service';
 import { HttpService } from '@nestjs/common';
 import axios from 'axios';
+import { FavoritesService } from '../favorites/favorites.service';
+import { instance, mock, verify, when } from 'ts-mockito';
 
 describe('WeatherService', () => {
   let service: WeatherService;
+  let favoritesServiceMock: FavoritesService;
 
   beforeEach(async () => {
-    service = new WeatherService(new HttpService(axios));
+    favoritesServiceMock = mock(FavoritesService);
+    service = new WeatherService(
+      new HttpService(axios),
+      instance(favoritesServiceMock),
+    );
   });
 
   it('should get weather', async () => {
@@ -16,8 +23,14 @@ describe('WeatherService', () => {
     });
   });
 
+  it('get weather should store last city', async () => {
+    await expect(service.getWeather('lod'));
+    verify(favoritesServiceMock.setLastCity('lod')).once();
+  });
+
   it('should get weather of last city', async () => {
-    const a = await service.getWeather('lod');
+    await service.getWeather('lod');
+    when(favoritesServiceMock.getLastCity()).thenReturn('lod');
     await expect(service.getWeather()).resolves.toHaveProperty('name', 'Lod');
   });
 
@@ -28,8 +41,14 @@ describe('WeatherService', () => {
     );
   });
 
+  it('get forecast should store last city', async () => {
+    await expect(service.getForcast('lod'));
+    verify(favoritesServiceMock.setLastCity('lod')).once();
+  });
+
   it('should get forecast of last city', async () => {
-    service.getForcast('lod');
+    await service.getForcast('lod');
+    when(favoritesServiceMock.getLastCity()).thenReturn('lod');
     await expect(service.getForcast()).resolves.toHaveProperty(
       'city',
       expect.objectContaining({ name: 'Lod' }),

@@ -2,6 +2,7 @@ import { HttpService, Injectable } from '@nestjs/common';
 import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
+import { FavoritesService } from '../favorites/favorites.service';
 import * as tunnel from 'tunnel';
 
 @Injectable()
@@ -15,9 +16,10 @@ export class WeatherService {
     },
   });
 
-  private lastCity: string = 'Arad,IL'
-
-  constructor(private httpService: HttpService) {
+  constructor(
+      private httpService: HttpService,
+      private favoritesService: FavoritesService,
+    ) {
     this.requestConfig = appConfig.proxyHost
       ? {
           httpsAgent: this.tunnel,
@@ -44,8 +46,11 @@ export class WeatherService {
   }
 
   private getAndStoreLastCity(city?: string) {
-    const actualCity = city ?? this.lastCity;
-    this.lastCity = actualCity;
-    return actualCity;
+    if (city) {
+      this.favoritesService.setLastCity(city);
+      return city;
+    } else {
+      return this.favoritesService.getLastCity();
+    }
   }
 }

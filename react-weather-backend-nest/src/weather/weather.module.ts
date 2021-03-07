@@ -1,9 +1,10 @@
-import {HttpModule, Module} from '@nestjs/common';
-import {WeatherService} from "./weather.service";
+import { HttpModule, Module } from '@nestjs/common';
+import { WeatherService } from './weather.service';
+import { FavoritesModule } from '../favorites/favorites.module';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, FavoritesModule],
   providers: [WeatherService],
-  exports: [WeatherService]
+  exports: [WeatherService],
 })
 export class WeatherModule {}
