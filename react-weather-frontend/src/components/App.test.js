@@ -52,12 +52,8 @@ describe("<App />", () => {
     expect(screen.getByText("Monday")).toBeInTheDocument();
     expect(screen.getByText("Tuesday")).toBeInTheDocument();
     expect(window.fetch).toHaveBeenCalledTimes(2);
-    expect(window.fetch).toHaveBeenCalledWith(
-      "http://localhost:3010/weather/?city=Eldoret"
-    );
-    expect(window.fetch).toHaveBeenCalledWith(
-      "http://localhost:3010/forecast/?city=Eldoret"
-    );
+    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/weather");
+    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/forecast");
   });
 
   test("renders loading spinner & an error if there's a problem getting weather data", async () => {
