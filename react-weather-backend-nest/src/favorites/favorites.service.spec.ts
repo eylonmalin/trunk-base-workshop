@@ -14,4 +14,8 @@ describe('FavoritesService', () => {
       expect(service.getLastCity()).toEqual(city);
     },
   );
+
+  it('should return default city - Arad', () => {
+    expect(service.getLastCity()).toEqual('Arad,IL');
+  });
 });

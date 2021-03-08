@@ -47,6 +47,16 @@ describe('AppController', () => {
       expect(res.body.name).toEqual('Lod');
     });
 
+    it('/weather (GET) without last city use default city Arad,IL', async () => {
+      //when
+      const res: request.Response = await request(
+        weatherApp.getHttpServer(),
+      ).get(`/weather`);
+
+      expect(res.body.name).toEqual('Arad');
+      expect(res.body.coord).toEqual({ lon: 35.2146, lat: 31.2612 });
+    });
+
     function commonAssertForForcast(res: request.Response) {
       expect(res.body).toHaveProperty('city');
       expect(res.body).toHaveProperty('list');
@@ -75,6 +85,16 @@ describe('AppController', () => {
       //then
       commonAssertForForcast(res);
       expect(res.body.city.name).toEqual('Lod');
+    });
+
+    it('/forecast (GET) without last city use default city Arad,IL', async () => {
+      //when
+      const res: request.Response = await request(
+        weatherApp.getHttpServer(),
+      ).get(`/forecast`);
+
+      expect(res.body.city.name).toEqual('Arad');
+      expect(res.body.city.country).toEqual('IL');
     });
   });
 });
