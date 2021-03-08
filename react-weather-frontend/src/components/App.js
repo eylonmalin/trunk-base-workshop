@@ -9,7 +9,7 @@ import NavBar from "./NavBar";
 const REACT_APP_API_URL = "http://localhost:3010";
 
 export default function App() {
-  const [city, setCity] = useState("Eldoret");
+  const [city, setCity] = useState(null);
   const [error, setError] = useState(null);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState([]);
@@ -98,7 +98,10 @@ function handleResponse(response) {
 }
 
 function getWeather(city) {
-  return fetch(`${REACT_APP_API_URL}/weather/?city=${city}`)
+  const url = city
+    ? `${REACT_APP_API_URL}/weather/?city=${city}`
+    : `${REACT_APP_API_URL}/weather`;
+  return fetch(url)
     .then(res => handleResponse(res))
     .then(weather => {
       if (Object.entries(weather).length) {
@@ -108,7 +111,10 @@ function getWeather(city) {
 }
 
 function getForecast(city) {
-  return fetch(`${REACT_APP_API_URL}/forecast/?city=${city}`)
+  const url = city
+    ? `${REACT_APP_API_URL}/forecast/?city=${city}`
+    : `${REACT_APP_API_URL}/forecast`;
+  return fetch(url)
     .then(res => handleResponse(res))
     .then(result => {
       if (Object.entries(result).length) {
