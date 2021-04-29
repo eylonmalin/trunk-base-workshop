@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="../reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="../reveal.js/dist/theme/serif.css" id="theme" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link
+            rel="stylesheet"
+            href="reveal.js/plugin/highlight/monokai.css"
+            id="highlight-theme"
+    />
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Trunk Based Development Workshop</h2>
+            <sub>By Eylon Malin</sub>
+        </section>
+        <section>
+            <section>
+                <h1>Small changes</h1>
+            </section>
+            <section>
+                We want to merge small changes into main branch with "just enough" functionality + <b>test</b>
+            </section>
+            <section>
+                <h3>Small changes Examples:</h3>
+                <br/>
+                <ul>
+                    <li>method that save new user in DB</li>
+                    <li>service that validate user details</li>
+                    <li>HTTP POST route that create the user (only call the service method)</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Big change Example</h3>
+                <br/>
+                <p>Create new POST route that create the user,
+                    <br>including all needed code in:
+                    <ul>
+                        <li>http level (controller)</li>
+                        <li>service level</li>
+                        <li>DAL level</li>
+                    </ul>
+                </p>
+            </section>
+            <section>
+                <h3>Small changes advantages</h3>
+                <br/>
+                <ul>
+                    <li>Early feedback</li>
+                    <li>Quick and efficient code review</li>
+                    <li>Early code merge</li>
+                    <li>Easy merges</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Test come along with functionality</h3>
+                <br/>
+                <ul>
+                    <li>for any such small change we merge it's test as part of the changeset (Pull Request)</li>
+                    <li>Sometimes the test is just unit test/s and sometimes it include component or even end-to-end tests</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Test First Development</h3>
+                <h4>Write the tests before you write the code.</h4>
+                <br/>
+                <ul><h5>Some advantages:</h5>
+                    <li>Test is already there when functionality is done</li>
+                    <li>Making sure test really test something<br>(failed when functionality is missing)</li>
+                    <li>Declare method signature/API before coding it</li>
+                    <li>enabler for refactor</li>
+                </ul>
+            </section>
+
+        </section>
+    </div>
+</div>
+
+<script src="../reveal.js/dist/reveal.js"></script>
+<script src="../reveal.js/plugin/notes/notes.js"></script>
+<script src="../reveal.js/plugin/markdown/markdown.js"></script>
+<script src="../reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom],
+    });
+</script>
+</body>
+</html>
