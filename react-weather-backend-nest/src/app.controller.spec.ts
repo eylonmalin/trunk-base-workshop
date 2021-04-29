@@ -57,6 +57,16 @@ describe('AppController', () => {
       expect(res.body.coord).toEqual({ lon: 35.2146, lat: 31.2612 });
     });
 
+    it('/weatherByCoord (GET) with lat 31.771959 lon 35.217018 return Jerusalem', async () => {
+      //when
+      const res: request.Response = await request(
+          weatherApp.getHttpServer(),
+      ).get(`/weatherByCoord?lat=31.771959&lon=35.217018`);
+
+      //then
+      expect(res.body.name).toEqual('Jerusalem');
+    });
+
     function commonAssertForForecast(res: request.Response) {
       expect(res.body).toHaveProperty('city');
       expect(res.body).toHaveProperty('list');

@@ -11,6 +11,11 @@ export class AppController {
     return this.weatherService.getWeather(city);
   }
 
+  @Get("/weatherByCoord")
+  async weatherByCoord(@Query('lat') lat:number, @Query('lon') lon:number): Promise<any> {
+    return this.weatherService.getWeather("Jerusalem");
+  }
+
   @Get("/forecast")
   async forecast(@Query('city') city?:string): Promise<any> {
     return this.weatherService.getForecast(city);
