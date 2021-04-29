@@ -96,5 +96,16 @@ describe('AppController', () => {
       expect(res.body.city.name).toEqual('Arad');
       expect(res.body.city.country).toEqual('IL');
     });
+
+    it('/forecastByCoord (GET) with lat 31.771959 lon 35.217018 return Jerusalem', async () => {
+      //when
+      const res: request.Response = await request(
+          weatherApp.getHttpServer(),
+      ).get(`/forecastByCoord?lat=31.771959&lon=35.217018`);
+
+      //then
+      commonAssertForForecast(res);
+      expect(res.body.city.name).toEqual('Jerusalem');
+    });
   });
 });
