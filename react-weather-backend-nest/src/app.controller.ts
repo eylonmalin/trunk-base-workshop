@@ -11,10 +11,8 @@ export class AppController {
     return this.weatherService.getWeather(city);
   }
 
-
-
   @Get("/forecast")
   async forecast(@Query('city') city?:string): Promise<any> {
-    return this.weatherService.getForcast(city);
+    return this.weatherService.getForecast(city);
   }
 }

@@ -36,7 +36,7 @@ export class WeatherService {
     return result.data;
   }
 
-  async getForcast(city? : string): Promise<any> {
+  async getForecast(city? : string): Promise<any> {
     city = this.getAndStoreLastCity(city);
     const url = `${appConfig.forecastUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
     const result = await this.httpService

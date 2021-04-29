@@ -57,7 +57,7 @@ describe('AppController', () => {
       expect(res.body.coord).toEqual({ lon: 35.2146, lat: 31.2612 });
     });
 
-    function commonAssertForForcast(res: request.Response) {
+    function commonAssertForForecast(res: request.Response) {
       expect(res.body).toHaveProperty('city');
       expect(res.body).toHaveProperty('list');
       expect(res.body).toHaveProperty('cod');
@@ -70,7 +70,7 @@ describe('AppController', () => {
       ).get(`/forecast?city=Lod`);
 
       //then
-      commonAssertForForcast(res);
+      commonAssertForForecast(res);
     });
 
     it('/forecast (GET) without city use last city', async () => {
@@ -83,7 +83,7 @@ describe('AppController', () => {
       ).get(`/forecast`);
 
       //then
-      commonAssertForForcast(res);
+      commonAssertForForecast(res);
       expect(res.body.city.name).toEqual('Lod');
     });
 

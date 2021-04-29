@@ -35,21 +35,21 @@ describe('WeatherService', () => {
   });
 
   it('should get forecast', async () => {
-    await expect(service.getForcast('lod')).resolves.toHaveProperty(
+    await expect(service.getForecast('lod')).resolves.toHaveProperty(
       'city',
       expect.objectContaining({ name: 'Lod' }),
     );
   });
 
   it('get forecast should store last city', async () => {
-    await expect(service.getForcast('lod'));
+    await expect(service.getForecast('lod'));
     verify(favoritesServiceMock.setLastCity('lod')).once();
   });
 
   it('should get forecast of last city', async () => {
-    await service.getForcast('lod');
+    await service.getForecast('lod');
     when(favoritesServiceMock.getLastCity()).thenReturn('lod');
-    await expect(service.getForcast()).resolves.toHaveProperty(
+    await expect(service.getForecast()).resolves.toHaveProperty(
       'city',
       expect.objectContaining({ name: 'Lod' }),
     );
