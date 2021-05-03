@@ -34,6 +34,11 @@ describe('WeatherService', () => {
     await expect(service.getWeather()).resolves.toHaveProperty('name', 'Lod');
   });
 
+  it('should get weather of city by coord', async () => {
+    await expect(service.getWeatherByCoord(31.7683, 35.2137))
+        .resolves.toHaveProperty('name', 'Jerusalem');
+  });
+
   it('should get forecast', async () => {
     await expect(service.getForecast('lod')).resolves.toHaveProperty(
       'city',

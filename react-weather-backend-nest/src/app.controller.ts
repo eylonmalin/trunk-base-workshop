@@ -13,7 +13,7 @@ export class AppController {
 
   @Get("/weatherByCoord")
   async weatherByCoord(@Query('lat') lat:number, @Query('lon') lon:number): Promise<any> {
-    return this.weatherService.getWeather("Jerusalem");
+    return this.weatherService.getWeatherByCoord(lat, lon);
   }
 
   @Get("/forecast")

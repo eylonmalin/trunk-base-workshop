@@ -33,6 +33,12 @@ export class WeatherService {
     return await this.httpGet(url);
   }
 
+
+  async getWeatherByCoord(lat:number, lon:number) {
+    const url = `${appConfig.weatherUrl}?lat=${lat}&lon=${lon}`;
+    return await this.httpGet(url);
+  }
+
   async getForecast(city? : string): Promise<any> {
     city = this.getAndStoreLastCity(city);
     const url = `${appConfig.forecastUrl}?q=${city}`;
