@@ -121,10 +121,9 @@ export async function getWeatherOrForecastUrl(city, type) {
 }
 
 function getWeather(city) {
-  const url = city
-    ? `${REACT_APP_API_URL}/weather/?city=${city}`
-    : `${REACT_APP_API_URL}/weather`;
-  return fetch(url)
+
+  return getWeatherOrForecastUrl(city, 'weather')
+    .then(url => fetch(url))
     .then(res => handleResponse(res))
     .then(weather => {
       if (Object.entries(weather).length) {
@@ -134,10 +133,9 @@ function getWeather(city) {
 }
 
 function getForecast(city) {
-  const url = city
-    ? `${REACT_APP_API_URL}/forecast/?city=${city}`
-    : `${REACT_APP_API_URL}/forecast`;
-  return fetch(url)
+
+  return getWeatherOrForecastUrl(city, 'forecast')
+    .then(url => fetch(url))
     .then(res => handleResponse(res))
     .then(result => {
       if (Object.entries(result).length) {
