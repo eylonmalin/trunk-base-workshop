@@ -45,6 +45,11 @@ export class WeatherService {
     return await this.httpGet(url);
   }
 
+  async getForecastByCoord(lat: number, lon: number) {
+    const url = `${appConfig.forecastUrl}?lat=${lat}&lon=${lon}`;
+    return await this.httpGet(url);
+  }
+
   private getAndStoreLastCity(city?: string) {
     if (city) {
       this.favoritesService.setLastCity(city);
@@ -64,5 +69,6 @@ export class WeatherService {
   private unitsAndAppPostfix() {
     return `&units=metric&APPID=${secrets.appId}`;
   }
+
 
 }

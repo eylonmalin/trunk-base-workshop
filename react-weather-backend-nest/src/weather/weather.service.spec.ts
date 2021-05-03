@@ -59,4 +59,11 @@ describe('WeatherService', () => {
       expect.objectContaining({ name: 'Lod' }),
     );
   });
+
+  it('should get forecast of city by coord', async () => {
+    await expect(service.getForecastByCoord(31.7683, 35.2137)).resolves.toHaveProperty(
+        'city',
+        expect.objectContaining({ name: 'Jerusalem' }),
+    );
+  });
 });
