@@ -115,7 +115,7 @@ export async function getWeatherOrForecastUrl(city, type) {
     console.log(`url: ${url}`)
     return url;
   } catch (error) {
-    console.log(`oh oh, error: ${error}`)
+    console.log(`oh oh, error: ${JSON.stringify(error)}`)
     return `${REACT_APP_API_URL}/${type}`;
   }
 }
