@@ -97,6 +97,29 @@ function handleResponse(response) {
   }
 }
 
+function getCurrentLocation() {
+  return new Promise(function(resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
+
+export async function getWeatherOrForecastUrl(city, type) {
+
+  if (city) {
+    return `${REACT_APP_API_URL}/${type}?city=${city}`
+  }
+
+  try {
+    const location = await getCurrentLocation();
+    let url = `${REACT_APP_API_URL}/${type}ByCoord?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
+    console.log(`url: ${url}`)
+    return url;
+  } catch (error) {
+    console.log(`oh oh, error: ${error}`)
+    return `${REACT_APP_API_URL}/${type}`;
+  }
+}
+
 function getWeather(city) {
   const url = city
     ? `${REACT_APP_API_URL}/weather/?city=${city}`
