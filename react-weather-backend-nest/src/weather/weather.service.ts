@@ -1,4 +1,4 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import {HttpService, Injectable, Query} from '@nestjs/common';
 import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
@@ -29,20 +29,14 @@ export class WeatherService {
 
   async getWeather(city? : string): Promise<any> {
     city = this.getAndStoreLastCity(city);
-    const url = `${appConfig.weatherUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
-    const result = await this.httpService
-      .get(url, this.requestConfig)
-      .toPromise();
-    return result.data;
+    const url = `${appConfig.weatherUrl}?q=${city}`;
+    return await this.httpGet(url);
   }
 
   async getForecast(city? : string): Promise<any> {
     city = this.getAndStoreLastCity(city);
-    const url = `${appConfig.forecastUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
-    const result = await this.httpService
-      .get(url, this.requestConfig)
-      .toPromise();
-    return result.data;
+    const url = `${appConfig.forecastUrl}?q=${city}`;
+    return await this.httpGet(url);
   }
 
   private getAndStoreLastCity(city?: string) {
@@ -53,4 +47,16 @@ export class WeatherService {
       return this.favoritesService.getLastCity();
     }
   }
+
+  private async httpGet(url: string): Promise<any> {
+    const result = await this.httpService
+        .get(`${url}${this.unitsAndAppPostfix()}`, this.requestConfig)
+        .toPromise();
+    return result.data;
+  }
+
+  private unitsAndAppPostfix() {
+    return `&units=metric&APPID=${secrets.appId}`;
+  }
+
 }
