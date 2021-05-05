@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import {IFavoritesService, FavoritesService, FAVORITES_SERVICE} from './favorites.service';
+import { FAVORITES_SERVICE, FavoritesServiceNY} from './favorites.service';
 
 @Module({
   providers: [
     {
       provide: FAVORITES_SERVICE,
-      useClass: FavoritesService,
+      useClass: FavoritesServiceNY,
     }
   ],
   exports: [FAVORITES_SERVICE],

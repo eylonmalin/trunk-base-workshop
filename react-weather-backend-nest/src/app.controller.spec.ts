@@ -33,7 +33,7 @@ describe('AppController', () => {
       commonAssertForWeather(res);
     });
 
-    it('/weather (GET) without city use last city', async () => {
+    it('/weather (GET) without city use New York', async () => {
       //given
       await request(weatherApp.getHttpServer()).get(`/weather?city=Lod`);
 
@@ -44,17 +44,17 @@ describe('AppController', () => {
 
       //then
       commonAssertForWeather(res);
-      expect(res.body.name).toEqual('Lod');
+      expect(res.body.name).toEqual('New York');
     });
 
-    it('/weather (GET) without last city use default city Arad,IL', async () => {
+    it('/weather (GET) without last city use default city New York', async () => {
       //when
       const res: request.Response = await request(
           weatherApp.getHttpServer(),
       ).get(`/weather`);
 
-      expect(res.body.name).toEqual('Arad');
-      expect(res.body.coord).toEqual({ lon: 35.2146, lat: 31.2612 });
+      expect(res.body.name).toEqual('New York');
+      expect(res.body.coord).toEqual({ lon: -74.006, lat: 40.7143 });
     });
 
     it('/weatherByCoord (GET) with lat 31.771959 lon 35.217018 return Jerusalem', async () => {
@@ -83,7 +83,7 @@ describe('AppController', () => {
       commonAssertForForecast(res);
     });
 
-    it('/forecast (GET) without city use last city', async () => {
+    it('/forecast (GET) without city use New York', async () => {
       //given
       await request(weatherApp.getHttpServer()).get(`/forecast?city=Lod`);
 
@@ -94,17 +94,17 @@ describe('AppController', () => {
 
       //then
       commonAssertForForecast(res);
-      expect(res.body.city.name).toEqual('Lod');
+      expect(res.body.city.name).toEqual('New York');
     });
 
-    it('/forecast (GET) without last city use default city Arad,IL', async () => {
+    it('/forecast (GET) without last city use default city New York', async () => {
       //when
       const res: request.Response = await request(
           weatherApp.getHttpServer(),
       ).get(`/forecast`);
 
-      expect(res.body.city.name).toEqual('Arad');
-      expect(res.body.city.country).toEqual('IL');
+      expect(res.body.city.name).toEqual('New York');
+      expect(res.body.city.country).toEqual('US');
     });
 
     it('/forecastByCoord (GET) with lat 31.771959 lon 35.217018 return Jerusalem', async () => {
