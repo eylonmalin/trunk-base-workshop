@@ -20,3 +20,13 @@ export class FavoritesService implements IFavoritesService {
     return this.lastCity;
   }
 }
+
+@Injectable()
+export class FavoritesServiceNY implements IFavoritesService {
+  setLastCity(city: string) {
+  }
+
+  getLastCity() {
+    return 'New York'
+  }
+}
