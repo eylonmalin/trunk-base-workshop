@@ -1,5 +1,7 @@
 import {Injectable} from '@nestjs/common';
 
+export const FAVORITES_SERVICE = 'FAVORITES_SERVICE';
+
 export interface IFavoritesService {
   setLastCity(city: string): void;
 

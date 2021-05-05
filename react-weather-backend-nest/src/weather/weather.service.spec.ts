@@ -1,15 +1,15 @@
 import { WeatherService } from './weather.service';
 import { HttpService } from '@nestjs/common';
 import axios from 'axios';
-import { FavoritesService } from '../favorites/favorites.service';
+import {IFavoritesService} from '../favorites/favorites.service';
 import { instance, mock, verify, when } from 'ts-mockito';
 
 describe('WeatherService', () => {
   let service: WeatherService;
-  let favoritesServiceMock: FavoritesService;
+  let favoritesServiceMock: IFavoritesService;
 
   beforeEach(async () => {
-    favoritesServiceMock = mock(FavoritesService);
+    favoritesServiceMock = mock<IFavoritesService>();
     service = new WeatherService(
       new HttpService(axios),
       instance(favoritesServiceMock),

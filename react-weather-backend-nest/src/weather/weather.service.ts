@@ -1,8 +1,8 @@
-import {HttpService, Injectable, Query} from '@nestjs/common';
+import {HttpService, Inject, Injectable, Query} from '@nestjs/common';
 import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
-import { FavoritesService } from '../favorites/favorites.service';
+import {FAVORITES_SERVICE, IFavoritesService} from '../favorites/favorites.service';
 import * as tunnel from 'tunnel';
 
 @Injectable()
@@ -18,7 +18,8 @@ export class WeatherService {
 
   constructor(
       private httpService: HttpService,
-      private favoritesService: FavoritesService,
+      @Inject(FAVORITES_SERVICE)
+      private favoritesService: IFavoritesService,
     ) {
     this.requestConfig = appConfig.proxyHost
       ? {
