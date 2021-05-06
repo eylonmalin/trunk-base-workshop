@@ -28,6 +28,14 @@ describe("<App />", () => {
   afterEach(() => jest.restoreAllMocks());
 
   test("fetches and then renders the current weather and forecast", async () => {
+
+    navigator.geolocation.getCurrentPosition.mockImplementation((success) => Promise.resolve(success({
+      coords: {
+        latitude: 12.3,
+        longitude: 45.6,
+      }
+    })));
+
     window.fetch
       .mockImplementationOnce(() =>
         Promise.resolve({
@@ -63,11 +71,19 @@ describe("<App />", () => {
     expect(screen.getByText("Monday")).toBeInTheDocument();
     expect(screen.getByText("Tuesday")).toBeInTheDocument();
     expect(window.fetch).toHaveBeenCalledTimes(2);
-    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/weather");
-    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/forecast");
+    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/weatherByCoord?lat=12.3&lon=45.6");
+    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/forecastByCoord?lat=12.3&lon=45.6");
   });
 
   test("renders loading spinner & an error if there's a problem getting weather data", async () => {
+
+    navigator.geolocation.getCurrentPosition.mockImplementationOnce((success) => Promise.resolve(success({
+      coords: {
+        latitude: 12.3,
+        longitude: 45.6,
+      }
+    })));
+
     const mockErrorResponse = {
       ok: false,
       status: 500,
