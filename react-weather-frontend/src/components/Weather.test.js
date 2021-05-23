@@ -25,6 +25,7 @@ describe("<Weather />", () => {
         forecast={testProps.forecast}
         error={testProps.error}
         onCityChange={testProps.onCityChange}
+        iconProvider={()=>{}}
       />
     );
 

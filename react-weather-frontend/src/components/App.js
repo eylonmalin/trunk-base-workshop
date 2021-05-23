@@ -5,6 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Weather from "./Weather";
 import NavBar from "./NavBar";
+import {weatherIconsProvider} from "./ProvideIcon";
 
 const REACT_APP_API_URL = "http://localhost:3010";
 
@@ -75,6 +76,7 @@ export default function App() {
             forecast={forecast}
             onCityChange={handleCityChange}
             error={error}
+            iconProvider={weatherIconsProvider}
           />
         </Container>
       </ThemeProvider>
