@@ -23,6 +23,7 @@ describe("<AppLayout />", () => {
         forecast={testProps.forecast}
         icon={testProps.icon}
         recommendation={testProps.recommendation}
+        iconProvider={()=>{}}
       />
     );
 

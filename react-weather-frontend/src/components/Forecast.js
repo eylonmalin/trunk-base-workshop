@@ -9,7 +9,6 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import dayjs from "dayjs";
-import * as weatherIcons from "../icons";
 
 const useStyles = makeStyles(theme => ({
   wi: {
@@ -19,10 +18,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Forecast(props) {
   const classes = useStyles();
-  const prefix = "wi wi-";
-  const { forecast } = props;
+  const { forecast, iconProvider } = props;
   const result = forecast.map((item, index) => {
-    const icon = prefix + weatherIcons.default[item.icon_id].icon;
+  const icon = iconProvider(item.icon_id);
     return (
       <ListItem key={index} className="forecastItem">
         <ListItemText

@@ -20,6 +20,7 @@ export default function Weather(props) {
           forecast={forecast}
           icon={icon}
           recommendation={recommendation}
+          iconProvider={iconProvider}
         />
       </div>
     );
