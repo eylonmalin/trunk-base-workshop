@@ -3,28 +3,18 @@ import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
 import { FavoritesService } from '../favorites/favorites.service';
-import * as tunnel from 'tunnel';
+import {createRequestConfigWithProxy} from "../utils/proxy";
+
 
 @Injectable()
 export class WeatherService {
   private requestConfig: AxiosRequestConfig;
 
-  private tunnel = tunnel.httpsOverHttp({
-    proxy: {
-      host: appConfig.proxyHost,
-      port: +appConfig.proxyPort,
-    },
-  });
-
   constructor(
       private httpService: HttpService,
       private favoritesService: FavoritesService,
     ) {
-    this.requestConfig = appConfig.proxyHost
-      ? {
-          httpsAgent: this.tunnel,
-        }
-      : {};
+    this.requestConfig = createRequestConfigWithProxy();
   }
 
   async getWeather(city? : string): Promise<any> {
