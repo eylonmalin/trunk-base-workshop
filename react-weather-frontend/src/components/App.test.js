@@ -15,6 +15,8 @@ Object.assign(navigator, {
   },
 });
 
+const mockFeatures = {'tbw-emoji': true}
+
 
 describe("<App />", () => {
   beforeAll(() => {
@@ -37,6 +39,12 @@ describe("<App />", () => {
     })));
 
     window.fetch
+       .mockImplementationOnce(() =>
+          Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve(mockFeatures)
+          })
+        )
       .mockImplementationOnce(() =>
         Promise.resolve({
           ok: true,
@@ -70,7 +78,7 @@ describe("<App />", () => {
     expect(screen.getByText("Sunday")).toBeInTheDocument();
     expect(screen.getByText("Monday")).toBeInTheDocument();
     expect(screen.getByText("Tuesday")).toBeInTheDocument();
-    expect(window.fetch).toHaveBeenCalledTimes(2);
+    expect(window.fetch).toHaveBeenCalledTimes(3);
     expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/weatherByCoord?lat=12.3&lon=45.6");
     expect(window.fetch).toHaveBeenCalledWith("http://localhost:3010/forecastByCoord?lat=12.3&lon=45.6");
   });

@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function AppLayout(props) {
   const classes = useStyles();
-  const { currentWeather, forecast, icon, recommendation, iconProvider } = props;
+  const { currentWeather, forecast, icon, recommendation, iconProvider, features } = props;
 
   return (
     <div className={classes.layout}>
@@ -77,6 +77,7 @@ export default function AppLayout(props) {
             icon={icon}
             recommendation={recommendation}
             iconProvider={iconProvider}
+            features={features}
           />
         </Grid>
       </Grid>
@@ -88,7 +89,7 @@ const WeatherCard = props => {
   const classes = useStyles();
   const humidity = "wi wi-humidity";
   const strongWind = "wi wi-strong-wind";
-  const { currentWeather, forecast, icon, recommendation, iconProvider } = props;
+  const { currentWeather, forecast, icon, recommendation, iconProvider, features } = props;
 
   return (
     <Card className={classes.card}>
@@ -135,7 +136,7 @@ const WeatherCard = props => {
           {recommendation}
         </Typography>
         <Divider variant="middle" />
-        <Forecast forecast={forecast} iconProvider={iconProvider} />
+        <Forecast forecast={forecast} iconProvider={iconProvider} features={features} />
       </CardContent>
     </Card>
   );

@@ -18,9 +18,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Forecast(props) {
   const classes = useStyles();
-  const { forecast, iconProvider } = props;
+  const { forecast, iconProvider, features } = props;
   const result = forecast.map((item, index) => {
-  const icon = iconProvider(item.icon_id);
+  const icon = iconProvider(item.icon_id, features);
     return (
       <ListItem key={index} className="forecastItem">
         <ListItemText

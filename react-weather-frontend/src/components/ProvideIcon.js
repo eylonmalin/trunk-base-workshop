@@ -1,8 +1,8 @@
 import * as weatherIcons from "../weather-icons.json";
 import * as emojiIcons from "../emoji-icons.json";
 
-export const weatherIconsProvider = icon_id => {
-    if (true) {
+export const weatherIconsProvider = (icon_id, features) => {
+    if (features['tbw-emoji']) {
         const prefix = "em em-";
         return prefix + emojiIcons.default[icon_id].icon;
     } else {

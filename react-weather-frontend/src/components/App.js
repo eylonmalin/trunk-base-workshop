@@ -14,6 +14,18 @@ export default function App() {
   const [error, setError] = useState(null);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState([]);
+  const [features, setFeatures] = useState({})
+
+  useEffect(() => {
+    getFeatures()
+        .then(data => {
+          setFeatures(data);
+          setError(null);
+        })
+        .catch(err => {
+          setError(err.message);
+        });
+  }, []);
 
   useEffect(() => {
     getWeather(city)
@@ -77,6 +89,7 @@ export default function App() {
             onCityChange={handleCityChange}
             error={error}
             iconProvider={weatherIconsProvider}
+            features={features}
           />
         </Container>
       </ThemeProvider>
@@ -120,6 +133,12 @@ export async function getWeatherOrForecastUrl(city, type) {
     console.log(`oh oh, error: ${JSON.stringify(error)}`)
     return `${REACT_APP_API_URL}/${type}`;
   }
+}
+
+
+function getFeatures() {
+   return fetch(`${REACT_APP_API_URL}/features`)
+        .then(res => handleResponse(res));
 }
 
 function getWeather(city) {

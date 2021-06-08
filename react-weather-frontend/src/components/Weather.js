@@ -6,9 +6,9 @@ import WeatherSearch from "./WeatherSearch";
 import * as recommendations from "../recommendations";
 
 export default function Weather(props) {
-  const { city, currentWeather, forecast, onCityChange, error, iconProvider } = props;
+  const { city, currentWeather, forecast, onCityChange, error, iconProvider, features } = props;
   if (currentWeather && forecast) {
-    const icon = iconProvider(currentWeather.icon_id);
+    const icon = iconProvider(currentWeather.icon_id, features);
     const recommendation =
       recommendations.default[currentWeather.icon_id].recommendation;
 
@@ -21,6 +21,7 @@ export default function Weather(props) {
           icon={icon}
           recommendation={recommendation}
           iconProvider={iconProvider}
+          features={features}
         />
       </div>
     );
