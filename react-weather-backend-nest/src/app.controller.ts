@@ -25,4 +25,9 @@ export class AppController {
   async forecastByCoord(@Query('lat') lat:number, @Query('lon') lon:number): Promise<any> {
     return this.weatherService.getForecast("Jerusalem");
   }
+
+  @Get("/features")
+  async features(): Promise<any> {
+    return {'tbw-emoji': true};
+  }
 }

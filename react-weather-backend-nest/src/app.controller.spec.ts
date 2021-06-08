@@ -117,5 +117,14 @@ describe('AppController', () => {
       commonAssertForForecast(res);
       expect(res.body.city.name).toEqual('Jerusalem');
     });
+
+    it('/features (GET) return tbw-emoji:true', async () => {
+      //when
+      const res: request.Response = await request(
+          weatherApp.getHttpServer(),
+      ).get(`/features`);
+
+      expect(res.body).toEqual({'tbw-emoji': true});
+    });
   });
 });
