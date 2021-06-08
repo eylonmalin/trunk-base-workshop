@@ -1,10 +1,14 @@
 import {Controller, Get, Query} from '@nestjs/common';
 import {WeatherService} from "./weather/weather.service";
+import {TogglesService} from "./toggles/toggles/toggles.service";
 
 @Controller()
 export class AppController {
 
-  constructor(private readonly weatherService: WeatherService) {}
+  constructor(
+      private readonly weatherService: WeatherService,
+      private readonly togglesService: TogglesService
+  ) {}
 
   @Get("/weather")
   async weather(@Query('city') city?:string): Promise<any> {
@@ -28,6 +32,6 @@ export class AppController {
 
   @Get("/features")
   async features(): Promise<any> {
-    return {'tbw-emoji': true};
+    return this.togglesService.getAllFeatures();
   }
 }

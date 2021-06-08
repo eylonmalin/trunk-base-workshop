@@ -118,13 +118,17 @@ describe('AppController', () => {
       expect(res.body.city.name).toEqual('Jerusalem');
     });
 
-    it('/features (GET) return tbw-emoji:true', async () => {
+    it('/features (GET) return all tbw features', async () => {
       //when
       const res: request.Response = await request(
           weatherApp.getHttpServer(),
       ).get(`/features`);
 
-      expect(res.body).toEqual({'tbw-emoji': true});
+      expect(res.body).toEqual(
+          expect.objectContaining({
+            'tbw-true': true,
+            'tbw-false': false
+          }));
     });
   });
 });
