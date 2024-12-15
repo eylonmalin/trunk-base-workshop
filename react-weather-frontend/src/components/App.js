@@ -5,11 +5,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Weather from "./Weather";
 import NavBar from "./NavBar";
+import {weatherIconsProvider} from "./ProvideIcon";
 
 const REACT_APP_API_URL = "http://localhost:3010";
 
 export default function App() {
-  const [city, setCity] = useState("Eldoret");
+  const [city, setCity] = useState(null);
   const [error, setError] = useState(null);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState([]);
@@ -75,6 +76,7 @@ export default function App() {
             forecast={forecast}
             onCityChange={handleCityChange}
             error={error}
+            iconProvider={weatherIconsProvider}
           />
         </Container>
       </ThemeProvider>
@@ -97,8 +99,33 @@ function handleResponse(response) {
   }
 }
 
+function getCurrentLocation() {
+  return new Promise(function(resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
+
+export async function getWeatherOrForecastUrl(city, type) {
+
+  if (city) {
+    return `${REACT_APP_API_URL}/${type}?city=${city}`
+  }
+
+  try {
+    const location = await getCurrentLocation();
+    let url = `${REACT_APP_API_URL}/${type}ByCoord?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
+    console.log(`url: ${url}`)
+    return url;
+  } catch (error) {
+    console.log(`oh oh, error: ${JSON.stringify(error)}`)
+    return `${REACT_APP_API_URL}/${type}`;
+  }
+}
+
 function getWeather(city) {
-  return fetch(`${REACT_APP_API_URL}/weather/?city=${city}`)
+
+  return getWeatherOrForecastUrl(city, 'weather')
+    .then(url => fetch(url))
     .then(res => handleResponse(res))
     .then(weather => {
       if (Object.entries(weather).length) {
@@ -108,7 +135,9 @@ function getWeather(city) {
 }
 
 function getForecast(city) {
-  return fetch(`${REACT_APP_API_URL}/forecast/?city=${city}`)
+
+  return getWeatherOrForecastUrl(city, 'forecast')
+    .then(url => fetch(url))
     .then(res => handleResponse(res))
     .then(result => {
       if (Object.entries(result).length) {

@@ -3,14 +3,12 @@ import React from "react";
 import AppLayout from "./AppLayout";
 import WeatherSearch from "./WeatherSearch";
 
-import * as weatherIcons from "../icons";
 import * as recommendations from "../recommendations";
 
 export default function Weather(props) {
-  const { city, currentWeather, forecast, onCityChange, error } = props;
+  const { city, currentWeather, forecast, onCityChange, error, iconProvider } = props;
   if (currentWeather && forecast) {
-    const prefix = "wi wi-";
-    const icon = prefix + weatherIcons.default[currentWeather.icon_id].icon;
+    const icon = iconProvider(currentWeather.icon_id);
     const recommendation =
       recommendations.default[currentWeather.icon_id].recommendation;
 
@@ -22,6 +20,7 @@ export default function Weather(props) {
           forecast={forecast}
           icon={icon}
           recommendation={recommendation}
+          iconProvider={iconProvider}
         />
       </div>
     );

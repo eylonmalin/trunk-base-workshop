@@ -14,7 +14,7 @@ describe("<Forecast />", () => {
   });
 
   test("renders the weekly forecast for the specified location", async () => {
-    render(<Forecast forecast={testProps.forecast} />);
+    render(<Forecast forecast={testProps.forecast} iconProvider={()=>{}}/>);
 
     await screen.findByText("Wednesday");
 

@@ -1,7 +1,8 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import {HttpService, Injectable, Query} from '@nestjs/common';
 import appConfig from '../config';
 import { secrets } from '../secrets';
 import { AxiosRequestConfig } from 'axios';
+import { FavoritesService } from '../favorites/favorites.service';
 import * as tunnel from 'tunnel';
 
 @Injectable()
@@ -15,7 +16,10 @@ export class WeatherService {
     },
   });
 
-  constructor(private httpService: HttpService) {
+  constructor(
+      private httpService: HttpService,
+      private favoritesService: FavoritesService,
+    ) {
     this.requestConfig = appConfig.proxyHost
       ? {
           httpsAgent: this.tunnel,
@@ -23,19 +27,48 @@ export class WeatherService {
       : {};
   }
 
-  async getWeather(city: string): Promise<any> {
-    const url = `${appConfig.weatherUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
+  async getWeather(city? : string): Promise<any> {
+    city = this.getAndStoreLastCity(city);
+    const url = `${appConfig.weatherUrl}?q=${city}`;
+    return await this.httpGet(url);
+  }
+
+
+  async getWeatherByCoord(lat:number, lon:number) {
+    const url = `${appConfig.weatherUrl}?lat=${lat}&lon=${lon}`;
+    return await this.httpGet(url);
+  }
+
+  async getForecast(city? : string): Promise<any> {
+    city = this.getAndStoreLastCity(city);
+    const url = `${appConfig.forecastUrl}?q=${city}`;
+    return await this.httpGet(url);
+  }
+
+  async getForecastByCoord(lat: number, lon: number) {
+    const url = `${appConfig.forecastUrl}?lat=${lat}&lon=${lon}`;
+    return await this.httpGet(url);
+  }
+
+  private getAndStoreLastCity(city?: string) {
+    if (city) {
+      this.favoritesService.setLastCity(city);
+      return city;
+    } else {
+      return this.favoritesService.getLastCity();
+    }
+  }
+
+  private async httpGet(url: string): Promise<any> {
     const result = await this.httpService
-      .get(url, this.requestConfig)
-      .toPromise();
+        .get(`${url}${this.unitsAndAppPostfix()}`, this.requestConfig)
+        .toPromise();
     return result.data;
   }
 
-  async getForcast(city: string): Promise<any> {
-    const url = `${appConfig.forecastUrl}?q=${city}&units=metric&APPID=${secrets.appId}`;
-    const result = await this.httpService
-      .get(url, this.requestConfig)
-      .toPromise();
-    return result.data;
+  private unitsAndAppPostfix() {
+    return `&units=metric&APPID=${secrets.appId}`;
   }
+
+
 }
